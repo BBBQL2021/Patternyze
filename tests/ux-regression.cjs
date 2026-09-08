@@ -20,7 +20,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
   assert(await page.locator(shadow).isVisible());
   await page.locator('.cs-preview summary').click();
   const preview=await page.locator('[data-ref="preview"]').textContent();
-  assert(preview.includes('# 组件添加任务'));
+  assert(preview.includes('# 组件采样'));
   assert((await page.locator('.cs-quality').textContent()).includes('推断'));
   await page.locator('.cs-copy').click();
   await page.waitForFunction(()=>window.writes.length===1);

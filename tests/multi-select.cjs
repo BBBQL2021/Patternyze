@@ -1,0 +1,27 @@
+const assert=require('node:assert/strict'),path=require('node:path');
+const {chromium}=require('playwright');
+(async()=>{const browser=await chromium.launch({headless:true,...(process.env.CHROME_EXECUTABLE?{executablePath:process.env.CHROME_EXECUTABLE}:{})});
+try{
+ const page=await browser.newPage({viewport:{width:1200,height:900}});
+ await page.setContent('<style>section{padding:20px;border:1px solid;width:200px;margin:15px}</style>'+Array.from({length:11},(_,i)=>`<section id="item${i}"><h2>组件${i}</h2><button>操作${i}</button></section>`).join(''));
+ await page.evaluate(()=>{window.writes=[];window.chrome={runtime:{id:'fixture',getURL:()=>'',onMessage:{addListener(){}},sendMessage:async()=>({ok:true})}};Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>window.writes.push(t)}});});
+ await page.addScriptTag({path:path.join(__dirname,'../content.js')});
+ await page.getByRole('switch',{name:'多选',exact:true}).check();
+ const pick=i=>page.locator('#item'+i).click({position:{x:5,y:5}});
+ const preview=()=>page.locator('[data-ref="preview"]').textContent();
+ await pick(0);await pick(1);assert((await preview()).startsWith('# 多组件采样'));assert.equal(await page.locator('.cs-selection-row').count(),2);
+ await pick(1);assert.equal(await page.locator('.cs-selection-row').count(),1);
+ await pick(1);await page.locator('#item0 button').click();assert.equal(await page.locator('.cs-selection-row').count(),2);
+ await page.getByRole('button',{name:'完成选择',exact:true}).click();
+ await pick(2);assert.equal(await page.locator('.cs-selection-row').count(),2);
+ await page.locator('#item2').click({position:{x:5,y:5},modifiers:['Shift']});assert.equal(await page.locator('.cs-selection-row').count(),3);
+ for(let i=3;i<11;i++)await pick(i);assert.equal(await page.locator('.cs-selection-row').count(),10);
+ await page.getByRole('button',{name:'完成选择',exact:true}).click();
+ const text=await preview();await page.getByRole('button',{name:'复制给 AI',exact:true}).click();await page.waitForFunction(()=>window.writes.length===1);assert.equal(await page.evaluate(()=>window.writes[0]),text);
+ await page.getByRole('button',{name:'Figma',exact:true}).click();assert(await page.getByRole('button',{name:'复制给 AI',exact:true}).isVisible());
+ await page.getByRole('button',{name:'问题反馈',exact:true}).click();await page.locator('[data-ref="problem"]').fill('多个卡片异常');assert((await preview()).includes('## 目标区域 10'));
+ await page.getByRole('button',{name:'移除组件 2',exact:true}).click();assert.equal(await page.locator('.cs-selection-row').count(),9);assert.equal(await page.locator('[data-ref="problem"]').inputValue(),'多个卡片异常');
+ await page.getByRole('button',{name:'清空选区',exact:true}).click();assert(!(await page.locator('.cs-detail').isVisible()));
+ await pick(0);await page.getByRole('switch',{name:'多选',exact:true}).uncheck();assert(!(await page.locator('[data-ref="selections"]').isVisible()));
+ console.log('Multi-select passed: toggle, parent deduplication, limit, Shift append, copy equality, numbered feedback, remove/clear, single-mode return.');
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
