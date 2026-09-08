@@ -1,0 +1,13 @@
+{
+  "name": "patternyze",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension for sampling web UI components",
+  "scripts": {
+    "check": "node --check content.js && node --check service-worker.js && node --check figit.js",
+    "test": "node tests/reproduce.cjs && node tests/ux-regression.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
