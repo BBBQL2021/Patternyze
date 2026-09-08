@@ -4,6 +4,8 @@
  * 采集、渲染、复制全部在 content script 内完成（网页内悬浮 UI，无 side panel）。 */
 
 /* 调试日志：输出到 SW console（chrome://extensions → 检查视图可见） */
+importScripts('diagnostics-worker.js');
+
 function dbgLog(...args) {
   const msg = args.map(String).join(" ");
   console.log("[Patternyze]", msg);

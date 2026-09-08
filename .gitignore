@@ -9,3 +9,9 @@ audit/create-icons.cjs
 .env
 .env.*
 !.env.example
+
+browser-runtime/
+evidence-test-extension/
+evidence-browser-profile*/
+tests/evidence-test-report.json
+tests/evidence-*.png

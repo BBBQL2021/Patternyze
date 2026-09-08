@@ -1,12 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Patternyze",
-  "version": "1.0.0",
-  "description": "在网页上直接采样 UI 组件：hover 高亮、点击选中，提取视觉、状态和通用交互，一键复制到 Figma 或 AI。",
+  "version": "1.0.1",
+  "description": "天才Agent工程师的前端助手工具",
   "permissions": [
     "activeTab",
     "scripting",
-    "clipboardWrite"
+    "clipboardWrite",
+    "debugger"
   ],
   "web_accessible_resources": [
     {
