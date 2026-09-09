@@ -2,13 +2,21 @@
 
 天才Agent工程师的前端助手工具。
 
+**源码可见 · 非商业用途许可 · 商用须书面授权**。采用 [PolyForm Noncommercial 1.0.0](LICENSE)，不是允许自由商用的开源协议。详见[商用授权说明](COMMERCIAL-LICENSE.md)，联系 **lx@bbbql.com**。第三方依赖保留各自许可证。
+
+![Patternyze 熊猫茉莉图标](icons/icon-128.png)
+
+[隐私政策](https://bbbql2021.github.io/Patternyze/privacy.html) · [商店素材与文案](docs/listing-zh-CN.md)
+
+当前源码已换用熊猫茉莉图标，并附上隐私政策及许可文件。下方 v1.0.1 历史发布包保留原样；获取本次商店准备版请使用 Release 中单独命名的 `Patternyze-1.0.1-chrome-store.zip` 附件。
+
 支持组件采样、多选、问题反馈、截图标注，以及控制台错误和网络请求记录。
 
 [下载安装包](https://github.com/BBBQL2021/Patternyze/releases/download/v1.0.1/Patternyze-1.0.1.zip) · [版本说明](https://github.com/BBBQL2021/Patternyze/releases/tag/v1.0.1) · [安装](#安装) · [使用教程](#使用教程) · [复刻实例](#复刻实例) · [常见问题](#常见问题)
 
-![Patternyze 选取组件后显示范围、采集深度和输出选项](docs/selection-panel.png)
+![Patternyze 在虚构演示页面中进行组件多选与采样](docs/screenshot-01-sampling.png)
 
-*图 1：在本地测试页面中运行的真实插件面板。橙色虚线标出选区，右侧用于检查和复制；此图不是浏览器安装页截图。*
+*图 1：在虚构本地演示页面中运行的真实插件面板，展示组件选择和复制预览。*
 
 ## 安装
 
@@ -170,7 +178,7 @@ AI Markdown 按编号分别导出各组件（每个组件最多 300 个元素、
 以下为首版基础修复：
 
 - 名称统一为 Patternyze，版本为 1.0.1。
-- 工具栏、扩展管理和浮动品牌图标均采用用户提供的图 1，完整保留画面及文字，等比例缩放并补白。
+- 工具栏、扩展管理和浮动品牌图标均采用用户提供的熊猫茉莉图案，裁去外围空白后等比例缩放并补白，不含文字。
 - 图标尺寸：16、32、48、128、1024 px；浮动品牌资源为 256 px。
 - 修复 DOM/CSS 对齐与兄弟节点覆盖、动效数据丢失、选区外状态误判、文本域默认内容残留、采样数量限制、嵌套交互漏采、滚动高亮偏移、HTTP 图片占位替代。
 - 补充 HTTP 页面复制备用路径、复制按钮防重复点击、转换器加载复用、输入控件方向键保护和窗口尺寸变化后的高亮更新。
@@ -197,8 +205,22 @@ npm test
 
 可选设置 CHROME_EXECUTABLE 指向本机 Chrome；PLAYWRIGHT_MODULE 可指定现有 Playwright 模块路径。测试结果写入 tests/ 下，测试使用虚构数据和模拟剪贴板，不操作系统剪贴板。
 
-插件直接运行根目录 JS 文件，无需构建。安装包只包含 manifest.json、content.js、service-worker.js、diagnostics-worker.js、figit.js、icons/、docs/ 和 README.md。单独下载源代码也可通过开发者模式加载根目录。
+插件直接运行根目录 JS 文件，无需构建。商店准备包包含运行脚本、manifest.json、icons/、隐私政策及许可文件，不包含测试数据或浏览器配置。单独下载源代码也可通过开发者模式加载根目录。
 
 ## 第三方素材与转换器
 
-figit.js 是已有第三方转换器 bundle，完整上游构建来源和依赖锁定仍待补齐。当前图标采用用户提供的图案，含第三方品牌元素；本仓库未对这些素材作重新授权声明，也未为整个项目指定开源许可证。
+figit.js 是已有第三方转换器 bundle，完整上游构建来源和依赖锁定仍待补齐。已根据模块路径整理 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)，其中上游参考版本不代表已核实的内置版本。第三方代码不受本项目非商业限制覆盖。当前熊猫茉莉图标由用户提供，不授予独立品牌使用权。
+
+## 问题反馈与截图演示
+
+填写问题描述、预期效果和复现步骤，检查来源和复制预览，再复制给开发。截图与记录都由用户主动触发。
+
+![问题反馈填写与现场截图](docs/screenshot-02-feedback.png)
+
+点击截图放大后，可切换拖动模式、滚轮缩放，用文字、序号、箭头、矩形、圆形和线条标注。分享前请检查截图中的敏感信息。
+
+![截图标注编辑器](docs/screenshot-03-annotation.png)
+
+需要诊断线索时开始现场记录，再重现问题并停止记录。记录只提供辅助线索，不能自动判断问题原因或定位到源码文件。
+
+![控制台和网络记录](docs/screenshot-04-diagnostics.png)
